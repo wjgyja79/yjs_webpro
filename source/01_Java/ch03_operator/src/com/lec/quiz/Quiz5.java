@@ -6,10 +6,8 @@ public class Quiz5 {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("국어점수를 입력하세요 : ");
 		int su1 = sc.nextInt(); // 키보드로부터 입력받은 정수를 su에 할당
-		Scanner sc = new Scanner(System.in);
 		System.out.print("영어점수를 입력하세요 : ");
 		int su2 = sc.nextInt(); // 키보드로부터 입력받은 정수를 su에 할당
-		Scanner sc = new Scanner(System.in);
 		System.out.print("수학점수를 입력하세요 : ");
 		int su3 = sc.nextInt(); // 키보드로부터 입력받은 정수를 su에 할당
 		int sum = su1 + su2 + su3;

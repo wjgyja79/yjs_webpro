@@ -14,5 +14,6 @@ public class Ex04_arrayCopy {
 		s[0]=99;
 		for(int i=0 ; i<s.length ; i++) {
 			System.out.printf("score[%d]=%d\t s[%d]=%d\n", i, score[i], i, s[i]);
-	}
+		}
+	}	
 }

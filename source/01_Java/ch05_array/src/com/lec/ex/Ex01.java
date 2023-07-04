@@ -7,7 +7,7 @@ public class Ex01 {
 		int[] iArr = {10, 20, 30, 40, 50};
 		iArr[2] = 300;
 		for(int idx = 0 ; idx<iArr.length ; idx++) { // iArr.length : iArr배열 방의 갯수
-			System.err.println(idx + "번째 방의 값은 " + iArr[idx]);
+			System.out.println(idx + "번째 방의 값은 " + iArr[idx]);
 		}
 		// 2. 배열 변수 선언과 배열 메모리 확보, 
 		int[] iArr2 = new int[5];
