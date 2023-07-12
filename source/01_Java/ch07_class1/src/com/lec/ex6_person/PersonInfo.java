@@ -1,4 +1,5 @@
 package com.lec.ex6_person;
+//클래스 : 속성(데이터, 인스턴스변수), 메소드, setter&getter
 // new PersonInfo("홍길동", 22, 'm')
 public class PersonInfo {
 	private String name;
