@@ -1,16 +1,17 @@
 package com.lec.quiz;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.lec.ex1_list.Friend;
 
 // N(n)을 입력할 때까지 고객 이름, 전화, 주소를 입력받아 arrayList add
 // N(n)을 입력하면 가입한 고객정보 출력 (arrayList for문 출력)
-public class CustomerArrayListMain {
+public class CustomerHashMapMain {
 	public static void main(String[] args) {
-		ArrayList<Customer> customers = new ArrayList<Customer>();
+		HashMap<String, Customer> customers = new HashMap<String, Customer>();
 		Scanner scanner = new Scanner(System.in);
 		String answer, name, tel, address;
 		while(true) {
@@ -23,26 +24,16 @@ public class CustomerArrayListMain {
 			tel = scanner.nextLine();
 			System.out.println("주소 ?");
 			address = scanner.nextLine();
-			// customer.add();이름, 전화번호, 주소 입력받아 customer객체 만들어 customers.add하기
-			customers.add(new Customer(name, tel, address));
-//			Customer customer = new Customer();
-//			System.out.println("이름 ? ");
-//			customer.setName(scanner.nextLine());
-//			System.out.println("전화 ? ");
-//			customer.setTel(scanner.nextLine());
-//			System.out.println("주소 ?");
-//			customer.setAddress(scanner.nextLine());
-//			customers.add(customer);
+			customers.put(tel, new Customer(name, tel, address));
+			Iterator<String> iterator = customers.keySet().iterator(); // 출력에 필요한 반복자
+			while(iterator.hasNext()) {
+				String key = iterator.next();
+				System.out.println(key + " : " + customers.get(key));
+			}
 		}
 		if(customers.size()==0) {
 			System.out.println("가입한 회원이 없습니다");
 		}else {
-			for(Customer customer : customers) {
-				System.out.println(customer);
-			}
-			for(int idx=0 ; idx<customers.size(); idx++) {
-				System.out.println(idx + " : " + customers.get(idx));
-			}
 			
 		} // if
 	} // main
