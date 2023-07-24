@@ -12,6 +12,7 @@ SELECT DEPTNO, SUM(SAL), AVG(SAL) FROM EMP GROUP BY DEPTNO; -- DEPTNO별 그룹함수
  SELECT * FROM DUAL;
  SELECT * FROM DUMMY;
 -- 1. 숫자관련함수
+SELECT ABS(-9) FROM DUAL; -- 절대값
 SELECT FLOOR(34.5678) FROM DUAL; -- 소수점에서 내림
 SELECT FLOOR(34.5678*100)/100 FROM DUAL; -- 소수점 두번째 자리에서 내림
 SELECT TRUNC(34.5678, 2) FROM DUAL; -- 소수점 두번째 자리에서 내림
@@ -101,3 +102,214 @@ SELECT EMPNO, ENAME, SUBSTR(JOB, 5, 9), RPAD(HIREDATE, 6, '*')
 SELECT LPAD(ENAME, 11) ENAME, RPAD(SAL, 6) SAL FROM EMP;
 
 SELECT * FROM EMP;
+
+-- (6) INSTR(STR, 찾을문자) : STR에서 첫번째문자부터 찾을문자가 나오는 위치(없으면 0)
+    -- INSTR(STR, 찾을문자, 시작위치) : STR에서 시작위치부터 찾을 문자가 나오는 위치
+SELECT INSTR('ABCABC', 'B') FROM DUAL;  -- 첫문자부터 찾아 처음 나오는 B 위치 : 2
+SELECT INSTR('ABCABC', 'B', 3) FROM DUAL; -- 3번째문자부터 찾아 처음 나오는 B 위치 : 5
+SELECT INSTR('ABCABC', 'B', -3) FROM DUAL; -- 뒤 3번째문자부터 뒤로 찾아 처음 나오는 B 위치: 2
+    -- ex. 9월에 입사한 사원의 모든 정보 출력(INSTR)
+    SELECT * FROM EMP WHERE INSTR(HIREDATE, '09', 4) = 4;
+    SELECT * FROM EMP WHERE INSTR(TO_CHAR((HIREDATE, 'RR/MM/DD'), '09', 4) = 4;
+    -- ex. 9일에 입사한 사원의 모든 정보 출력(INSTR)
+    SELECT * FROM EMP WHERE INSTR(HIREDATE, '09', 7) = 7;
+
+-- (7) 여백제거 : TRIM(STR), LTRIM(STR), RTRIM(STR)
+SELECT '    ORACLE  ' MSG FROM DUAL;
+SELECT TRIM('  ORACLE  ') MSG FROM DUAL;
+SELECT LTRIM('  ORACLE  ') MSG FROM DUAL;
+SELECT RTRIM('  ORACLE  ') MSG FROM DUAL;
+
+--(8) REPLACE(STR, 바꿔야할문자, 바뀔문자); STR에서 바꿔야할문자를 바뀔문자로 교체
+SELECT ENAME, REPLACE(ENAME, 'A', 'XXX') REPLACENAME FROM EMP;
+SELECT REPLACE(SAL, '0', 'X') FROM EMP;
+SELECT REPLACE(HIREDATE, '0', '*') FROM EMP;
+
+-- 3. 날짜관련함수 및 예약어
+-- (1) SYSDATE : 지금 
+SELECT SYSDATE FROM DUAL;
+ALTER SESSION SET NLS_DATE_FORMAT = 'RR/MM/DD HH24:MI:SS';
+ALTER SESSION SET NLS_DATE_FORMAT = 'RR/MM/DD'; -- 날짜설정 원상 복구
+SELECT * FROM EMP;
+-- (2) 날짜계산 : 오라클 타입(날짜, 숫자, 문자) 중 날짜와 숫자는 연상가능
+ALTER SESSION SET NLS_DATE_FORMAT = 'RR/MM/DD HH24:MI:SS';
+SELECT SYSDATE-1 어제이시간, SYSDATE, SYSDATE+1 내일이시간 FROM DUAL;
+ALTER SESSION SET NLS_DATE_FORMAT = 'RR/MM/DD'; -- 날짜설정 원상 복구
+ -- ex. 반납예정일
+ SELECT SYSDATE+14 FROM DUAL; 
+ -- ex. 개강일 ~ 현재까지 몇일 지났니? 
+ SELECT TRUNC(SYSDATE-TO_DATE('23/06/26 09:30', 'RR/MM/DD HH24:MI')) FROM DUAL; 
+ -- ex. 현재 ~ 수료까지 몇일? 
+ SELECT TRUNC(TO_DATE('23/12/11 13:20', 'RR/MM/DD HH24:MI') - SYSDATE) FROM DUAL; 
+ -- ex. EMP에서 이름, 입사일, 근무일수
+ SELECT ENAME, HIREDATE, TRUNC(SYSDATE-HIREDATE) DAY FROM EMP;
+ -- ex. EMP에서 이름, 입사일, 근무일, 근무주수, 근무년수
+ SELECT ENAME, HIREDATE, 
+    TRUNC(SYSDATE-HIREDATE) DAY, 
+    TRUNC((SYSDATE-HIREDATE)/7) WEEK,
+    TRUNC((SYSDATE-HIREDATE)/365.25) YEAR
+   FROM EMP;
+
+ -- (3) MONTHS_BETWEEN(시점1, 시점2) : 두 시점간의 개월수(시점1이 나중시점)
+  -- ex. 이름, 입사일, 근무월수
+  SELECT ENAME, HIREDATE, TRUNC(MONTHS_BETWEEN(SYSDATE, HIREDATE)) MONTH FROM EMP;
+  -- ex. 이름, 입사한 이후 회사에서 받은 월급 및 상여금(월급을 한달에 한번, 상여금 1년2번)
+  SELECT ENAME,
+    SAL * TRUNC(MONTHS_BETWEEN(SYSDATE, HIREDATE)) + 
+    NVL(COMM, 0) * 2 * TRUNC((SYSDATE-HIREDATE)/365) COST
+   FROM EMP;
+   
+SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 3) FROM EMP;
+  -- 이름, 입사일, 수습종료시점(수습기간 3개월)
+  SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 3) FROM EMP;
+  -- 입사일이 22.11.30이면 수습기간은 23.2.28
+  SELECT * FROM EMP;
+  INSERT INTO EMP VALUES (8000, '홍길동', NULL, NULL, '22/11/30', NULL, NULL, 40);
+  SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 3) FROM EMP;
+  ROLLBACK; -- INSERT 취소
+   
+ -- (4) ADD_MONTHS(특정시점, 개월수) : 특정시점부터 몇개월후
+   
+  
+-- (5) NEXT_DAY(특정시점, '토') : 특정시점부터 처음 도래하는 토요일
+SELECT NEXT_DAY(SYSDATE, '토') FROM DUAL;
+
+-- (6) NEXT_DAY(특정시점) : 특정시점의 말일
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
+ -- 이름, 입사일, 첫 월급날(월급날은 이번달 말일 -> 다음달 말일)
+ SELECT ENAME, HIREDATE, LAST_DAY(HIREDATE) 월급날 FROM EMP; -- 이번달 말일
+ SELECT ENAME, HIREDATE, ADD_MONTHS(LAST_DAY(HIREDATE),1) 월급날 FROM EMP; -- 다음달 말일
+ SELECT ENAME, HIREDATE, LAST_DAY(ADD_MONTHS(HIREDATE),1) 월급날 FROM EMP; -- 다음달 말일
+ 
+ -- (7) ROUND(날짜, XX); 날짜를 반올림 (XX:YEAR, MONTH, DAY)
+    --  TRUNC(날짜, XX) ; 날짤 내림
+SELECT ROUND(34.5678, 1) FROM DUAL;
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+SELECT ROUND(SYSDATE, 'YEAR') FROM DUAL; -- 결과 : 가까운 1월1일
+SELECT ROUND(SYSDATE, 'MONTH') FROM DUAL; -- 결과 : 가까운 1일(1~15일까지는 이번달1일/16일 이후면 다음달1일)
+SELECT ROUND(SYSDATE) FROM DUAL; -- 결과 : 가까운 0시
+SELECT ROUND(SYSDATE, 'DAY') FROM DUAL; -- 결과 : 가까운 일요일
+SELECT TRUNC(SYSDATE, 'DAY') FROM DUAL; -- 결과 : 지난 일요일
+SELECT TRUNC(SYSDATE, 'MONTH') FROM DUAL; -- 결과 : 이번달 1일
+SELECT TRUNC(SYSDATE, 'YEAR') FROM DUAL; -- 결과 : 올해 1월1일
+ -- 이름, 입사일, 첫월급날(16일) ; 1~15일 입사면 이번달 16일이 월급, 16일 이후에 입사면 다음달 16일 월급
+ SELECT ENAME, HIREDATE, ROUND(HIREDATE, 'MONTH')+15 첫월급날 FROM EMP;
+ -- 이름, 입사일, 첫월급날(10일) : 1~9일 입사면 이번달 10일이 월급, 10일 이후에 입사면 다음달 10일 월급
+ SELECT ENAME, HIREDATE, ROUND(HIREDATE+6, 'MONTH')+9 첫월급날 FROM EMP;
+ -- 이름, 입사일, 첫월급날(20일) : 1~19일 입사면 이번달 20일이 월급, 20일 이후에 입사면 다음달 20일 월급
+ SELECT ENAME, HIREDATE, ROUND(HIREDATE-4, 'MONTH')+19 첫월급날 FROM EMP;
+ 
+-- 4.형변환함수 (TO_CHAR;문자로 형변환 / TO_DATE;날짜로 형변환 / TO)NUMBER;숫자로 형변환)
+-- (1) TO_CHAR(날짜형, '출력형식')
+        -- 출력형식 : YYYY 년도4자리 / RR 년도2자리 / MM 월/ DD 일 / DY 요일 /
+        --          HH24 / HH12 / AM이나 PM / MI 분 / SS 초
+        -- 출력형식에 문자를 포함할 경우 " " 안에
+        SELECT ENAME, TO_CHAR(HIREDATE, 'YYYY-MM-DD DY"요일" HH24:MI:SS') FROM EMP;
+        SELECT ENAME, TO_CHAR(HIREDATE, 'RR"년"MM"월"DD"일" DY"요일" AM HH12"시"MI"분"SS"초"') FROM EMP;
+-- (2) TO_CHAR(숫자형, '출력형식')
+        -- 출력형식 0 : 자리수. 출력형식의 자릿수가 숫자형데이터 보다 많으면 0으로 채움
+        -- 출력형식 9 : 자리수. 출력형식의 자릿수가 숫자형데이터 보다 많아도 숫자형데이터만 출력
+        -- 출력형식 , :
+        -- 출력형식 L : 지역통화단위를 추가
+        -- 출력형식 $ : 통화단위 $추가
+        SELECT TO_CHAR(12345, '000,000') FROM DUAL;
+        SELECT TO_CHAR(12345, '999,999') FROM DUAL;
+        SELECT TO_CHAR(1004.76, '99,999.9') FROM DUAL;
+        SELECT TO_CHAR(1200, 'L9,999') FROM DUAL;
+        -- ex. 이름, 급여, 세자리마다 콤마가 추가된 SAL
+        DESC EMP;
+                -- SAL은 7자리숫자 중 소수점 2자리.
+        SELECT ENAME, SAL, TO_CHAR(SAL, '$9,999') FROM EMP;
+
+-- (3) TO_DATE(문자, '패턴')
+ -- ex. 81/5/1 ~ 83/5/1 사이에 입사한 직원의 모든 필드
+ SELECT * FROM EMP
+  WHERE HIREDATE BETWEEN TO_DATE('81/05/01', 'RR/MM/DD')
+                    AND TO_DATE('83/05/01', 'RR/MM/DD'); -- TO_DATE 이용
+ SELECT * FROM EMP
+  WHERE TO_CHAR(HIREDATE, 'RR/MM/DD') BETWEEN '81/05/01' AND '82/05/01'; -- TO_CHAR() 이용
+
+-- (4) TO_NUMBER(문자, '패턴')
+ SELECT TO_NUMBER('3,456', '9,999') + 1 FROM DUAL;
+ SELECT '3,456' + 1 FROM DUAL;
+
+-- (5) NVL(NULL일수도 있는 데이터, NULL이면 대신할 값) - 매개변수 2개의 타입이 일치
+ -- ex. 사원이름, 직속상사이름(직속상사가 없으면 CEO로 출력)
+ SELECT W.ENAME, NVL(M.ENAME, 'CEO') MANAGER
+  FROM EMP W, EMP M
+  WHERE W.MGR=M.EMPNO(+);
+ -- ex. 사원이름, 상사의사번(상사의 사번이 없으면 CEO로 출력)
+ SELECT ENAME, NVL(TO_CHAR(MGR),'CEO') FROM EMP;
+
+-- 6.ETC...
+-- (1) EXTRACT ; 날짜형 데이터에서 년도, 월, 일만 추출하고자 할 때
+ SELECT HIREDATE, EXTRACT(YEAR FROM HIREDATE) FROM EMP; -- 년도만 숫자로 추출
+ SELECT HIREDATE, TO_CHAR(HIREDATE, 'YYYY') YEAR FROM EMP; -- 년도 4자리를 문자로 추출함
+ SELECT HIREDATE, EXTRACT(MONTH FROM HIREDATE) MONTH FROM EMP; -- 월만 숫자로 추출함
+ SELECT HIREDATE, TO_CHAR(HIREDATE, 'MM') MONTH FROM EMP;
+ SELECT HIREDATE, EXTRACT(DAY FROM HIREDATE) DAY FROM EMP; -- 일만 숫자로 추출함
+ SELECT HIREDATE, TO_CHAR(HIREDATE, 'DD') MONTH FROM EMP; -- 일2자리를 문자로 추출함
+ 
+-- (2) 계층별 출력
+SELECT ENAME, SAL FROM EMP;
+SELECT LEVER, LPAD('└', LEVEL*2) || ENAME NAME, SAL FROM EMP
+ START WITH MGR IS NULL
+ CONNECT BY PRIOR EMPNO=MGR;
+
+
+--  연습문제
+
+--1. 현재 날짜를 TITLE에 Current Date로 별칭으로 출력하는 SELECT 문장을 기술하시오.
+SELECT SYSDATE "CURRENT DATE" FROM DUAL;
+
+--2. EMP 테이블에서 현재 급여에 15%가 증가된 급여를 사원번호,이름,업무,급여,증가된 급여(New Salary),증가액(Increase)
+--를 출력하는 SELECT 문장을 기술하시오.
+SELECT EMPNO, ENAME, JOB, SAL, SAL*1.15 "NEW SALARY", SAL*0.15 "INCRESAING" FROM EMP;
+
+--3. EMP 테이블에서 이름,입사일,입사일로부터 6개월 후 돌아오는 월요일 구하여 출력하는 SELECT 문장을 기술하시오.
+SELECT ENAME, HIREDATE, NEXT_DAY(ADD_MONTHS(HIREDATE, 6),'월') NEXT_DAY FROM EMP;
+
+--4. EMP 테이블에서 이름,입사일, 입사일로부터 현재까지의 월수,급여, 입사일부터 현재까지의 급여의 총계를 출력하는
+--SELECT 문장을 기술하시오.
+SELECT TRUNC((MONTHS_BETWEEN(SYSDATE,HIREDATE)),0) MONTH, SAL, TRUNC((MONTHS_BETWEEN(SYSDATE,HIREDATE)),0)*SAL TOTAL FROM EMP;
+
+--5. EMP 테이블에서 모든 사원의 이름과 급여(15자리로 출력 좌측의 빈 곳은 “*”로 대치)를 출력하는 SELECT 문장을 기술
+--하시오.
+SELECT LPAD(ENAME, 15, '*'), LPAD(SAL, 15, '*') FROM EMP;
+
+--6. EMP 테이블에서 모든 사원의 정보를 이름,업무,입사일,입사한 요일을 출력하는 SELECT 문장을 기술하시오.
+SELECT ENAME, JOB, HIREDATE, TO_CHAR(HIREDATE, 'DAY') "입사한 요일" FROM EMP;
+ 
+--7. EMP 테이블에서 이름의 길이가 6자 이상인 사원의 정보를 이름,이름의 글자수,업무를 출력하는 SELECT 문장을 기술하
+--시오.
+SELECT ENAME, LENGTH(ENAME), JOB FROM EMP WHERE LENGTH(ENAME)>=6;
+
+--8. EMP 테이블에서 모든 사원의 정보를 이름, 업무, 급여, 보너스, 급여+보너스를 출력하는 SELECT 문장을 기술하시오
+SELECT ENAME, JOB, SAL, NVL(COMM, 0) + SAL TOTAL FROM EMP;
+
+--9. 사원 테이블의 사원명에서 2번째 문자부터 3개의 문자를 추출하시오.
+SELECT SUBSTR(ENAME, 2, 3) FROM EMP;
+
+--10. 다음과 같은 결과를 검색할 수 있는 SQL 문장을 작성하시오
+--EMPNO ENAME 급여
+--7369 SMITH *******800
+--7499 ALLEN ******1600
+--7521 WARD ******1250
+--…….
+SELECT EMPNO, ENAME, LPAD(SAL, 10, '*') FROM EMP;
+
+--11. 다음과 같은 결과를 검색할 수 있는 SQL 문장을 작성하시오
+--EMPNO ENAME 입사일
+--7369 SMITH 1980-12-17
+--….
+SELECT EMPNO, ENAME, TO_CHAR(HIREDATE, 'YYYY-MM-DD') "입사일" FROM EMP WHERE ENAME = 'SMITH';
+
+--13. 사원 테이블에서 부서번호가 20인 사원의 사번, 이름, 직무, 급여를 출력하시오(급여는 앞에 $를 삽입하고 3자리마다 ,
+--를 출력한다
+SELECT EMPNO, ENAME, JOB, TO_CHAR(SAL, '$9,999') FROM EMP WHERE DEPTNO=20;
+SELECT * FROM EMP;
+INSERT INTO EMP VALUES (8000, '홍길동', NULL, NULL, SYSDATE, 900000, NULL, 40); -- 에러
+
+
+
