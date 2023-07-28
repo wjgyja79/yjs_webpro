@@ -241,6 +241,7 @@ GRANT SELECT ON DEPT TO scott2;
 REVOKE ALL ON EMP FROM scott2;
 REVOKE SELECT ON DEPT FROM scott2;
 -- 계정 삭제(scott2)
+DROP USER scott2 CASCADE;
  
  
  
