@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        strong {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;회원가입</h1>
+    </header>
+    <form>
+        <fieldset>
+            <legend>필수입력</legend>
+            <ul>
+                <li>
+                    <label for="name">이 &nbsp; 름  &nbsp;&nbsp; <strong>*</strong></label>
+                    <input type="text" name="name" id="name" required="required" autofocus="autofocus"
+                           placeholder="이름은 2글자 이상"
+                           title="이름(2글자 이상) 형식이 맞지 않습니다"
+                           pattern="[가-힣]{2,3}"
+                           required="required"/>
+                </li>
+                <li>
+                    <label for="id">아이디 &nbsp;&nbsp; <strong>*</strong></label>
+                    <input type="text" name="id" id="id" required="required"
+                           placeholder="ID는 4글자 이상"
+                           title="ID(4글자 이상) 형식이 맞지 않습니다"
+                           pattern="\w[0-9a-zA-Z]{2,3}"
+                           required="required"/>
+                </li>
+                <li>
+                    <label for="pw">비밀번호 <strong>*</strong></label>
+                    <input type="text" name="pw" id="pw" required="required" 
+                           pattern="\w[0-9a-zA-Z]{1}"
+                           required="required"/>
+                </li>
+                <li>
+                    <label for="pw">비번확인 <strong>*</strong></label>
+                    <input type="text" name="pw" id="pw" required="required"
+                           title="비밀번호가 불일치합니다"
+                           pattern="\w[0-9a-zA-Z]{1}"
+                           required="required"/>
+                </li>
+                <li>
+                    <label for="tel">전화 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>*</strong></label>
+                    <input type="text" name="tel" id="tel"
+                           placeholder="XX-XXX-XXXX/000-0000-0000"
+                           pattern="[0-9]{2,3}.\d{3,4}.\d{4}"
+                           title="전화번호 형식이 맞지 않습니다"
+                           required="required" />
+                </li>
+                <li>
+                    <label for="email">이메일 &nbsp;&nbsp; <strong>*</strong></label>
+                    <input type="email" name="email" id="email"
+                           placeholder="id@domain.com또는co.kr"
+                           title="이메일 형식이 맞지 않습니다"
+                           pattern="\w+@[0-9a-zA-Z]+(\.\w+){1,2}"
+                           required="required"/>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>추가 입력 사항</legend>
+            <ul>
+                <li>
+                    결혼유 무
+                    <input type="checkbox" name="tech" value="기혼" id="기혼" />
+                    <label for="기혼">기혼</label>
+                    <input type="checkbox" name="tech" value="이혼" " id="이혼" />
+                    <label for="이혼">이혼</label>
+                </li>
+                <li>
+                    자식
+                    <input type="checkbox" name="tech" value="아들" id="아들" />
+                    <label for="아들">아들</label>
+                    <input type="checkbox" name="tech" value="딸" id="딸" />
+                    <label for="딸">딸</label>
+                </li>
+                <p>
+                    지역
+                    <select name="지역">
+                        <option>경기</option>
+                        <option>서울</option>
+                        <option>부산</option>
+                        <option>대구</option>
+                        <option>광주</option>
+                    </select>
+                </p>
+            </ul>
+        </fieldset>
+        <p>
+            <center>
+                <input type="submit" value="가입" />
+                <input type="reset" value="취소" />
+            </center>
+        </p>
+    </form>
+    <footer>
+        <p>서울시 서대문구 신촌로 141 은하빌딩 203호</p>
+        <p>Copyright ⓒ XX All RIghts reserved</p>
+    </footer>
+</body>
+</html>
