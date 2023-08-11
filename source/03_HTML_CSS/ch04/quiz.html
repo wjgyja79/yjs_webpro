@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<style>
+    /*전체 레이아웃 잡기*/
+    #header, #content, #footer{
+        width:1000px; margin:0 auto;
+        overflow:hidden;
+    }
+    .left, .right{
+        float:left;
+        width:150px; height:150px;
+        background-color:lightgray;
+        border:1px solid gray;
+    }
+    .center {
+        float: left;
+        width: 693px; height: 150px;
+        background-color: lightgray;
+        border: 1px solid gray;
+    }
+    #content > div {height:300px;}
+</style>
+<body>
+    <div id="header">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+    <div id="content">
+
+    </div>
+    <div id="footer">
+
+    </div>
+</body>
+</html>
