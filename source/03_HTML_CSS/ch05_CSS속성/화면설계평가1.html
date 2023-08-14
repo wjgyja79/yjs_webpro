@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #contain {
+            width: 700px;
+            margin: 0 auto;
+            border: 1px solid gray;
+        }
+
+        #header {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: yellow;
+        }
+
+        #wrap {
+            height: 200px;
+            position: relative; 
+        }
+            #wrap #content { 
+                width: 80%;
+                height: 100%;
+                margin: 0 auto;
+                border: 1px solid red;
+                background: url('ch05/sulhyun.jpg') center no-repeat;
+                background-size: 120%; 
+                font-size: 3em;
+                text-align: center;
+                color: yellow;
+            }
+            #wrap #content1 {
+                width: 400px;
+                height: 180px;
+                background-color: lightgray;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                z-index: 99;
+            }
+
+            #wrap #content2 {
+                width: 320px;
+                height: 180px;
+                background-color: lightgray;
+                position: absolute;
+                top: 20px;
+                right: 15px;
+                z-index: -99;
+            }
+            #footer {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="contain">
+        <div id="header">HEADER</div>
+        <div>
+            <ul>
+                NAVIGATION
+                <li><a href="#m1">menu1</a></li>
+                <li><a href="#m2">menu2</a></li>
+                <li><a href="#m3">menu3</a></li>
+                <li><a href="#m2">menu4</a></li>
+                <li><a href="#m3">menu5</a></li>
+            </ul>
+        </div>
+        <div id="wrap">
+            <div id="CONTENT">CONTENT</div>
+            <div id="BANNER">BANNER</div>
+        </div>
+
+        <div id="footer">FOOTER</div>
+    </div>
+</body>
+</html>
