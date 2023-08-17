@@ -113,3 +113,86 @@ header .lnb {
             header .lnb ul li a {
                 font-weight: bold;
             }
+/* * * * * #content * * * * */
+#content {
+    width: 1000px;
+    margin: 0 auto;
+}
+    /* * * * * #content .section1 * * * * */
+    #content .section1 {
+        /*width:100%;*/
+        overflow: hidden;
+    }
+
+        #content .section1 > div {
+            border: 1px solid gray;
+            box-sizing: border-box;
+            float: left;
+            height: 400px;
+            line-height: 400px;
+            text-align: center;
+        }
+
+        #content .section1 .slide_banner {
+            width: 700px;
+        }
+
+        #content .section1 .side_banner {
+            width: 300px;
+        }
+    /* * * * * #content .section2 * * * * */
+    #content .section2 .hit_product {
+        margin: 10px 0;
+    }
+
+    #content .section2 .hit_product,
+    #content .section2 .md_product {
+        border: 1px solid gray;
+    }
+
+        #content .section2 .hit_product ul,
+        #content .section2 .md_product ul {
+            overflow: hidden;
+            /*width:998px <= 마진5개 포함*/
+        }
+
+    #content .section2 ul > li {
+        float: left;
+        height: 400px;
+        line-height: 400px;
+        text-align: center;
+        border: 1px solid gray;
+        box-sizing: border-box;
+        width: 24%;
+        margin-right: 0.8%;
+    }
+
+        #content .section2 ul > li:first-child {
+            margin-left: 0.8%;
+        }
+/* * * * * footer * * * * * */
+footer {
+    width: 1000px;
+    margin: 5px auto;
+    height: 150px;
+    overflow: hidden;
+}
+
+    footer div:nth-child(1),
+    footer div:nth-child(2),
+    footer div:nth-child(3) {
+        float: left;
+        width: 33.33%;
+        height: 100px;
+        border: 1px solid gray;
+        box-sizing: border-box;
+    }
+
+    footer div:last-child {
+        clear: both; /* 앞의 float속성(left나 right)을 clear */
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background-color: black;
+        color: white;
+    }
