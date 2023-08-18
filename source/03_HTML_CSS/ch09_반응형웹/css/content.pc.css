@@ -1,0 +1,7 @@
+﻿/* pc.css */
+#wrap #content {
+    background-color:darkgray;
+    color:white;
+    padding:30px 10px;
+    text-align:justify;
+}
