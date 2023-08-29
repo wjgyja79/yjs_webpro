@@ -8,13 +8,6 @@
     var toggle1=0, toggle2=0;
     var timerId;
     window.onload = function(){
-      header1 = document.getElementById('header-1');
-      header1.innerHTML = '날짜와 시간';
-      header2 = document.getElementById('header-2');
-      header2.innerHTML = new Date().toLocaleString();
-      // 1초에 한번 실행되는 타이머 추가
-      timerId = setInterval(()=>{
-        header2.innerHTML = new Date().toLocaleString();
       }, 1000);
     };
     function change1(){
