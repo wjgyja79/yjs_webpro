@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    ul{overflow: hidden;}
+    li{float: left; list-style: none; margin: 3px;}
+  </style>
+  <script>
+    var overImg = ['img/0over.jpg', 'img/1over.jpg', 'img/2over.jpg', 'img/3over.jpg'];
+    var outImg = ['img/0out.jpg', 'img/1out.jpg', 'img/2out.jpg', 'img/3out.jpg'];
+    window.onload = function () {
+      var imgs = document.getElementsByTagName('img');
+      for (let i = 0; i < imgs.length; i++) { // var로 쓰면 i값이 
+        imgs[i].addEventListener('mouseover',function () {
+          //this.src = overImg[i];
+          this.setAttribute('src', overImg[i]);
+        })
+        imgs[i].addEventListener('mouseout',function () {
+          // this.src = outImg[i];
+          this.setAttribute('src', outImg[i]);
+        });
+      }//for
+    };
+  </script>
+</head>
+<body>
+  <ul>
+    <li><a href="#"><img src="img/0out.jpg" /></a></li>
+    <li><a href="#"><img src="img/1out.jpg" /></a></li>
+    <li><a href="#"><img src="img/2out.jpg" /></a></li>
+    <li><a href="#"><img src="img/3out.jpg" /></a></li>
+  </ul>
+</body>
+</html>
