@@ -15,7 +15,6 @@ MySQL=ORACLE
 react=javascript
 
 
-
 npm install -g server
 
 cd build
