@@ -1,7 +1,7 @@
 @charset "UTF-8";
 #loginForm_wrap {
 	width:430px;
-	margin: 100px auto;
+	margin: 70px auto;
 	border : 1px solid #D4A190;
 	padding:50px 100px;
 }
@@ -25,7 +25,9 @@
 #loginForm_wrap table  td {
 	width:300px;
 }
-#id, #pw { border: 1px solid #D4A190; width: 95%; padding: 3px;}
+#id, #pw { border: 1px solid #D4A190; width: 95%; padding: 3px;
+	outline: 0;
+}
 #loginForm_wrap table  tr #login_findIdPw{
 	height: 20px;
 	text-align: right;

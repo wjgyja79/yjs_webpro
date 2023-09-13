@@ -20,6 +20,3 @@ npm install -g server
 cd build
 
 npx sever -s build
-
-다음주 상담
-10월에 2번
