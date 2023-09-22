@@ -17,7 +17,7 @@
 		BoardDto dto = bDao.getBoardNotHitUp(bid); // 조회수 안 올리고 dto 가져오기
 	%>
 	<form action="<%=conPath%>/board/updatePro.jsp" method="post">
-		<input type="text" name="bid" value="<%=bid %>">
+		<input type="hidden" name="bid" value="<%=bid %>">
 		<table>
 			<caption><%=bid %>번글 수정</caption>
 			<tr>
@@ -69,19 +69,3 @@
 	</form>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

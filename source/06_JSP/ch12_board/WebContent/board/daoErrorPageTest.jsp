@@ -30,7 +30,8 @@
 		out.print("<h3>6. 조회수 안 올리고, 글번호로 dto가져오기</h3>");
 		out.print("2번 글:" + bDao.getBoardNotHitUp(2) + "<br>");
 		out.print("<h3>4와 5. 조회수 올리고, 글번호로 dto가져오기</h3>");
-		out.print("2번글 상세보기 : " + bDao.getContent(2) + "상세보기는 hitUp 수행");
+		bDao.hitUp(2);
+		out.print("2번글 상세보기 : " + bDao.getBoardNotHitUp(2) + "조회수 올리고 상세보기");
 		out.print("<h3>7. 글수정");
 		dto = bDao.getBoardNotHitUp(2); // 2번 글 정보
 		dto.setBname("독특자");
@@ -46,18 +47,3 @@
 	%>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

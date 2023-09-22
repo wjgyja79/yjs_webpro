@@ -14,7 +14,13 @@
 	<%
 		String bid = request.getParameter("bid"); // null이거나 "1"
 		BoardDao bDao = BoardDao.getInstance();
-		BoardDto dto = bDao.getContent(bid); // 조회수 1 올리고 dto가져오기
+		// list.jsp를 통해서 상세보기 페이지를 올 때만 조회수 1Up
+		// list.jsp를 통해서 상세보기 페이지로 올 때 url : content.jsp?bid=2
+		// 수정성공 후 상세페이지로 올 때 url : content.jsp?bid=2&after=u
+		if(request.getParameter("after")==null){
+			bDao.hitUp(bid);
+		}
+		BoardDto dto = bDao.getBoardNotHitUp(bid); // dto가져오기		
 		if(dto == null){
 			response.sendRedirect(conPath + "/board/list.jsp");
 		}else{
@@ -60,19 +66,3 @@
 	<%}%>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
