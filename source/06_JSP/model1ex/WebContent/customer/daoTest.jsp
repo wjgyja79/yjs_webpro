@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="com.lec.dto.CustomerDto"%>
 <%@page import="com.lec.dao.CustomerDao"%>
@@ -63,6 +64,12 @@
 		}else{
 			out.println(dto.getCid()+" 아이디는 없어서 수정 못했어요<br>");
 		}
+		out.println("<h3>6. 회원리스트 </h3>");
+		ArrayList<CustomerDto> customers = cDao.listCustomer(2, 5);
+		for(CustomerDto customer : customers){
+			out.println(customer);
+		}
+		out.println("<h3>7. 가입한 회원수 "+ cDao.getCustomerTotCnt() +" </h3>");
 	%>
 </body>
 </html>
