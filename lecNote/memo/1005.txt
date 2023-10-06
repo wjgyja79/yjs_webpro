@@ -1,0 +1,23 @@
+\\192.168.0.31
+C:\yjs_webpro>
+git add .
+C:\yjs_webpro>
+git commit -m "best"
+C:\yjs_webpro>
+git push origin main
+https://m.blog.naver.com/geenyou/223114985753
+1. class private data / public 메소드(setter&getter포함)
+추상클래스 - 추상메소드 한나 이상
+패턴(Singleteon)-
+예외처리 - 최상위 예외 객체의 타입
+Java collection - ArrayList(add, 데이터, 인덱스) 
+		HashMap (put, key,데이터
+MySQL=ORACLE=MariaDB
+react=javascript
+
+
+npm install -g server
+
+cd build
+
+npx sever -s build
